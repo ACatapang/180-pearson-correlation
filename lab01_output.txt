@@ -1,0 +1,53 @@
+
+===================== RUN 1 ============================
+Matrix Size: 100 	 Time elapsed: 0.002559 seconds
+Matrix Size: 200 	 Time elapsed: 0.001862 seconds
+Matrix Size: 300 	 Time elapsed: 0.004261 seconds
+Matrix Size: 400 	 Time elapsed: 0.005724 seconds
+Matrix Size: 500 	 Time elapsed: 0.007765 seconds
+Matrix Size: 600 	 Time elapsed: 0.012119 seconds
+Matrix Size: 700 	 Time elapsed: 0.014908 seconds
+Matrix Size: 800 	 Time elapsed: 0.020429 seconds
+Matrix Size: 900 	 Time elapsed: 0.024682 seconds
+Matrix Size: 1000 	 Time elapsed: 0.031007 seconds
+Matrix Size: 2000 	 Time elapsed: 0.124330 seconds
+Matrix Size: 4000 	 Time elapsed: 0.614765 seconds
+Matrix Size: 8000 	 Time elapsed: 3.725495 seconds
+Matrix Size: 16000 	 Time elapsed: 25.377684 seconds
+Matrix Size: 20000 	 Time elapsed: 55.460741 seconds
+========================================================
+===================== RUN 2 ============================
+Matrix Size: 100 	 Time elapsed: 0.000682 seconds
+Matrix Size: 200 	 Time elapsed: 0.001886 seconds
+Matrix Size: 300 	 Time elapsed: 0.004343 seconds
+Matrix Size: 400 	 Time elapsed: 0.005708 seconds
+Matrix Size: 500 	 Time elapsed: 0.007737 seconds
+Matrix Size: 600 	 Time elapsed: 0.011484 seconds
+Matrix Size: 700 	 Time elapsed: 0.014794 seconds
+Matrix Size: 800 	 Time elapsed: 0.019413 seconds
+Matrix Size: 900 	 Time elapsed: 0.024719 seconds
+Matrix Size: 1000 	 Time elapsed: 0.031897 seconds
+Matrix Size: 2000 	 Time elapsed: 0.125445 seconds
+Matrix Size: 4000 	 Time elapsed: 0.607888 seconds
+Matrix Size: 8000 	 Time elapsed: 3.546701 seconds
+Matrix Size: 16000 	 Time elapsed: 22.569372 seconds
+Matrix Size: 20000 	 Time elapsed: 53.444348 seconds
+========================================================
+===================== RUN 3 ============================
+Matrix Size: 100 	 Time elapsed: 0.000508 seconds
+Matrix Size: 200 	 Time elapsed: 0.002064 seconds
+Matrix Size: 300 	 Time elapsed: 0.004386 seconds
+Matrix Size: 400 	 Time elapsed: 0.006811 seconds
+Matrix Size: 500 	 Time elapsed: 0.008257 seconds
+Matrix Size: 600 	 Time elapsed: 0.010675 seconds
+Matrix Size: 700 	 Time elapsed: 0.015725 seconds
+Matrix Size: 800 	 Time elapsed: 0.020424 seconds
+Matrix Size: 900 	 Time elapsed: 0.026684 seconds
+Matrix Size: 1000 	 Time elapsed: 0.030969 seconds
+Matrix Size: 2000 	 Time elapsed: 0.127645 seconds
+Matrix Size: 4000 	 Time elapsed: 0.624543 seconds
+Matrix Size: 8000 	 Time elapsed: 3.582216 seconds
+Matrix Size: 16000 	 Time elapsed: 25.541617 seconds
+Matrix Size: 20000 	 Time elapsed: 54.935120 seconds
+=========================================================
+

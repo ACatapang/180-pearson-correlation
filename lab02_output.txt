@@ -1,0 +1,9 @@
+Matrix Size: 25000 	 Thread Count: 1 	 Time elapsed: 107.520261 seconds
+Matrix Size: 25000 	 Thread Count: 2 	 Time elapsed: 63.598323 seconds
+Matrix Size: 25000 	 Thread Count: 4 	 Time elapsed: 39.545284 seconds
+Matrix Size: 25000 	 Thread Count: 8 	 Time elapsed: 21.009675 seconds
+Matrix Size: 25000 	 Thread Count: 16 	 Time elapsed: 16.578397 seconds
+Matrix Size: 25000 	 Thread Count: 32 	 Time elapsed: 16.152559 seconds
+Matrix Size: 25000 	 Thread Count: 64 	 Time elapsed: 15.540742 seconds
+========================================================================
+

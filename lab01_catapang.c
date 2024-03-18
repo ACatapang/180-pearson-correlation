@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
+#include <sys/time.h>
 
 // Function to calculate Pearson Correlation Coefficient
 void pearson_cor(double **X, double *y, int m, int n)
@@ -63,7 +64,10 @@ int randomNonZero()
 int main()
 {
     int n;
-    printf("Enter the size of matrix (n): ");
+    struct timeval start, end;
+    double elapsed_time;
+
+    // printf("Enter the size of matrix (n): ");
     scanf("%d", &n);
 
     // Allocate memory for the matrix X and vector y
@@ -107,13 +111,19 @@ int main()
     // Print matrix X and vector y
     // print_matrix(X, n, n);
     // print_vector(y, n);
-    clock_t time_before = clock();
+
+    // Get the starting time
+    gettimeofday(&start, NULL);
+
     pearson_cor(X, y, n, n);
-    clock_t time_after = clock();
 
-    clock_t time_elapsed = time_after - time_before;
+    // Get the ending time
+    gettimeofday(&end, NULL);
 
-    printf("Time Elapsed for n = %d is %f seconds", n, (double)time_elapsed / CLOCKS_PER_SEC);
+    // Calculate the elapsed time in seconds
+    elapsed_time = (end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec) / 1000000.0;
+
+    printf("Matrix Size: %d \t Time elapsed: %.6f seconds\n", n, elapsed_time);
 
     // Free allocated memory
     for (int i = 0; i < n; i++)
