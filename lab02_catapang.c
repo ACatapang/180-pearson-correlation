@@ -39,7 +39,7 @@ typedef struct
 void *threaded_pearson_cor(void *arg)
 {
     ThreadArgs *thread = (ThreadArgs *)arg;
-    pearson_cor(thread->X, thread->y, thread->rows, thread->cols, thread->sub_v);
+    pearson_cor(thread->X, thread->y,thread->start_col thread->rows, thread->cols, thread->sub_v);
     pthread_exit(NULL);
 }
 
