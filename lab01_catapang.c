@@ -5,7 +5,7 @@
 #include <sys/time.h>
 
 // Function to calculate Pearson Correlation Coefficient
-void pearson_cor(double **X, double *y, int m, int n)
+void pearson_cor(int **X, int *y, int m, int n)
 {
     double v[n];
     for (int i = 0; i < n; i++)
@@ -51,16 +51,6 @@ void print_vector(double *vector, int size)
     }
 }
 
-int randomNonZero()
-{
-    int num;
-    do
-    {
-        num = rand();
-    } while (num == 0); // Repeat until num is non-zero
-    return num;
-}
-
 int main()
 {
     int n;
@@ -71,8 +61,8 @@ int main()
     scanf("%d", &n);
 
     // Allocate memory for the matrix X and vector y
-    double **X = malloc(n * sizeof(double *));
-    double *y = malloc(n * sizeof(double));
+    int **X = malloc(n * sizeof(int *));
+    int *y = malloc(n * sizeof(int));
 
     // Check for memory allocation failure
     if (X == NULL || y == NULL)
@@ -84,7 +74,7 @@ int main()
     // Allocate memory for each row of X
     for (int i = 0; i < n; i++)
     {
-        X[i] = malloc(n * sizeof(double));
+        X[i] = malloc(n * sizeof(int));
         if (X[i] == NULL)
         {
             printf("Memory allocation failed.\n");
@@ -92,20 +82,17 @@ int main()
         }
     }
 
+    srand(time(NULL));
+
     // double X_values[][2] = {{3.63, 3.63}, {3.02, 3.02}, {3.82, 3.82}, {3.42, 3.42}, {3.59, 3.59}, {2.87, 2.87}, {3.03, 3.03}, {3.46, 3.46}, {3.36, 3.36}, {3.3, 3.3}};
+    // double y_values[] = {53.1, 49.7, 48.4, 54.2, 54.9, 43.7, 47.2, 45.2, 54.4, 50.4};
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < n; j++)
         {
-            X[i][j] = randomNonZero();
+            X[i][j] = rand() % 100 + 1;
         }
-    }
-
-    // Assign values for y
-    // double y_values[] = {53.1, 49.7, 48.4, 54.2, 54.9, 43.7, 47.2, 45.2, 54.4, 50.4};
-    for (int i = 0; i < n; i++)
-    {
-        y[i] = randomNonZero();
+        y[i] = rand() % 100 + 1;
     }
 
     // Print matrix X and vector y
@@ -123,7 +110,7 @@ int main()
     // Calculate the elapsed time in seconds
     elapsed_time = (end.tv_sec - start.tv_sec) + (end.tv_usec - start.tv_usec) / 1000000.0;
 
-    printf("Matrix Size: %d \t Time elapsed: %.6f seconds\n", n, elapsed_time);
+    printf(" %d \t %.6f \n", n, elapsed_time);
 
     // Free allocated memory
     for (int i = 0; i < n; i++)

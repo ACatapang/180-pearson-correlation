@@ -6,11 +6,11 @@
 #include <pthread.h>
 
 // Function to calculate Pearson Correlation Coefficient
-void pearson_cor(int **X, int *y, int m, int n, double *v)
+void pearson_cor(double **X, double *y, int m, int n, double *v)
 {
     for (int i = 0; i < n; i++)
     {
-        int x_sum = 0, y_sum = 0, x_sqr = 0, y_sqr = 0, xy = 0;
+        double x_sum = 0, y_sum = 0, x_sqr = 0, y_sqr = 0, xy = 0;
         v[i] = 0;
         for (int j = 0; j < m; j++)
         {
@@ -20,16 +20,16 @@ void pearson_cor(int **X, int *y, int m, int n, double *v)
             y_sqr += pow(y[j], 2);
             xy += X[j][i] * y[j];
         }
-        int numerator = m * xy - x_sum * y_sum;
-        int denominator = sqrt((m * x_sqr - x_sum * x_sum) * (m * y_sqr - y_sum * y_sum));
+        double numerator = m * xy - x_sum * y_sum;
+        double denominator = sqrt((m * x_sqr - x_sum * x_sum) * (m * y_sqr - y_sum * y_sum));
         v[i] = numerator / denominator;
     }
 }
 
 typedef struct
 {
-    int **X;
-    int *y;
+    double **X;
+    double *y;
     int start_col;
     int cols;
     int rows;
@@ -46,13 +46,12 @@ void *threaded_pearson_cor(void *arg)
 int main()
 {
     int n, t;
-    int **X, *y;
-    double *v;
+    double **X, *y, *v;
     ThreadArgs *args;
     struct timeval start, end;
     double elapsed_time;
 
-    printf("Enter the size of the square matrix and the number of threads (n t): ");
+    // printf("Enter the size of the square matrix and the number of threads (n t): ");
     scanf("%d %d", &n, &t);
 
     if (n <= 0 || t <= 0 || n < t)
@@ -61,12 +60,10 @@ int main()
         return 1;
     }
 
-    printf("Allocating memory\n");
-    X = malloc(n * sizeof(int *));
-    y = malloc(n * sizeof(int));
+    X = malloc(n * sizeof(double *));
+    y = malloc(n * sizeof(double));
     v = malloc(n * sizeof(double));
     args = malloc(t * sizeof(ThreadArgs));
-    printf("Memory Allocated\n");
 
     if (X == NULL || y == NULL || v == NULL || args == NULL)
     {
@@ -76,7 +73,7 @@ int main()
 
     for (int i = 0; i < n; i++)
     {
-        X[i] = malloc(n * sizeof(int));
+        X[i] = malloc(n * sizeof(double));
         if (X[i] == NULL)
         {
             printf("Memory allocation failed.\n");
@@ -86,18 +83,14 @@ int main()
 
     srand(time(NULL));
 
-    printf("Assigning values to matrix\n");
-
     for (int i = 0; i < n; i++)
     {
         for (int j = 0; j < n; j++)
         {
-            X[i][j] = rand() % 100 + 1;
+            X[i][j] = rand() % 100 + 1; // Adjust range if necessary
         }
-        y[i] = rand() % 100 + 1;
+        y[i] = rand() % 100 + 1; // Adjust range if necessary
     }
-
-    printf("Done\n");
 
     // Get the starting time
     gettimeofday(&start, NULL);
@@ -109,11 +102,10 @@ int main()
 
     for (int i = 0; i < t; i++)
     {
-        printf("Creating thread %d .\n", i);
         args[i].X = X;
         args[i].y = y;
         args[i].start_col = start_col;
-        args[i].cols = cols_per_thread + ((i == t - 1) ? extra_cols : 0);
+        args[i].cols = cols_per_thread + (i < extra_cols ? 1 : 0);
         args[i].rows = n;
         args[i].sub_v = malloc(args[i].cols * sizeof(double));
 
@@ -129,9 +121,7 @@ int main()
 
     for (int i = 0; i < t; i++)
     {
-        printf("Waiting for thread %d to complete...\n", i);
         pthread_join(tid[i], NULL);
-        printf("Thread %d completed.\n", i);
         for (int j = 0; j < args[i].cols; j++)
         {
             v[j + args[i].start_col] = args[i].sub_v[j];

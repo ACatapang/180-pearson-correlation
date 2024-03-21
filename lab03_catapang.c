@@ -4,6 +4,7 @@
 #include <math.h>
 #include <sys/time.h>
 #include <pthread.h>
+#include <unistd.h>
 
 // Function to calculate Pearson Correlation Coefficient
 void pearson_cor(int **X, int *y, int m, int n, double *v)
@@ -33,6 +34,7 @@ typedef struct
     int start_col;
     int cols;
     int rows;
+    int cpu_core;
     double *sub_v;
 } ThreadArgs;
 
@@ -107,6 +109,8 @@ int main()
     int extra_cols = n % t;
     int start_col = 0;
 
+    int num_processors = sysconf(_SC_NPROCESSORS_ONLN);
+
     for (int i = 0; i < t; i++)
     {
         printf("Creating thread %d .\n", i);
@@ -116,6 +120,7 @@ int main()
         args[i].cols = cols_per_thread + ((i == t - 1) ? extra_cols : 0);
         args[i].rows = n;
         args[i].sub_v = malloc(args[i].cols * sizeof(double));
+        args[i].cpu_core = i % (num_processors - 1);
 
         if (args[i].sub_v == NULL)
         {
@@ -123,6 +128,10 @@ int main()
             return 1;
         }
 
+        cpu_set_t cpuset;
+        CPU_ZERO(&cpuset);
+        CPU_SET(args[i].cpu_core, &cpuset);
+        pthread_setaffinity_np(tid[i], sizeof(cpu_set_t), &cpuset);
         pthread_create(&tid[i], NULL, threaded_pearson_cor, (void *)&args[i]);
         start_col += args[i].cols;
     }

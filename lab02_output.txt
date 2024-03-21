@@ -5,5 +5,51 @@ Matrix Size: 25000 	 Thread Count: 8 	 Time elapsed: 21.009675 seconds
 Matrix Size: 25000 	 Thread Count: 16 	 Time elapsed: 16.578397 seconds
 Matrix Size: 25000 	 Thread Count: 32 	 Time elapsed: 16.152559 seconds
 Matrix Size: 25000 	 Thread Count: 64 	 Time elapsed: 15.540742 seconds
-========================================================================
 
+Matrix Size: 25000 	 Thread Count: 1 	 Time elapsed: 99.792991 seconds
+Matrix Size: 25000 	 Thread Count: 2 	 Time elapsed: 51.448561 seconds
+Matrix Size: 25000 	 Thread Count: 4 	 Time elapsed: 27.526120 seconds
+Matrix Size: 25000 	 Thread Count: 8 	 Time elapsed: 15.105351 seconds
+Matrix Size: 25000 	 Thread Count: 16 	 Time elapsed: 14.922066 seconds
+Matrix Size: 25000 	 Thread Count: 32 	 Time elapsed: 14.604913 seconds
+Matrix Size: 25000 	 Thread Count: 64 	 Time elapsed: 14.558117 seconds
+
+Matrix Size: 25000 	 Thread Count: 1 	 Time elapsed: 100.070155 seconds
+Matrix Size: 25000 	 Thread Count: 2 	 Time elapsed: 52.486351 seconds
+Matrix Size: 25000 	 Thread Count: 4 	 Time elapsed: 28.701231 seconds
+Matrix Size: 25000 	 Thread Count: 8 	 Time elapsed: 15.284455 seconds
+Matrix Size: 25000 	 Thread Count: 16 	 Time elapsed: 15.310000 seconds
+Matrix Size: 25000 	 Thread Count: 32 	 Time elapsed: 14.600344 seconds
+Matrix Size: 25000 	 Thread Count: 64 	 Time elapsed: 14.278314 seconds
+========================================================================
+Matrix Size: 30000 	 Thread Count: 1 	 Time elapsed: 173.491563 seconds
+Matrix Size: 30000 	 Thread Count: 2 	 Time elapsed: 84.380111 seconds
+Matrix Size: 30000 	 Thread Count: 4 	 Time elapsed: 46.141153 seconds
+Matrix Size: 30000 	 Thread Count: 8 	 Time elapsed: 24.837070 seconds
+Matrix Size: 30000 	 Thread Count: 16 	 Time elapsed: 22.458060 seconds
+Matrix Size: 30000 	 Thread Count: 32 	 Time elapsed: 21.757609 seconds
+Matrix Size: 30000 	 Thread Count: 64 	 Time elapsed: 24.712388 seconds
+
+Matrix Size: 30000 	 Thread Count: 1 	 Time elapsed: 207.086344 seconds
+Matrix Size: 30000 	 Thread Count: 2 	 Time elapsed: 102.719001 seconds
+Matrix Size: 30000 	 Thread Count: 4 	 Time elapsed: 57.781528 seconds
+Matrix Size: 30000 	 Thread Count: 8 	 Time elapsed: 65.848277 seconds
+Matrix Size: 30000 	 Thread Count: 16 	 Time elapsed: 55.162713 seconds
+Matrix Size: 30000 	 Thread Count: 32 	 Time elapsed: 52.496606 seconds
+Matrix Size: 30000 	 Thread Count: 64 	 Time elapsed: 33.623976 seconds
+
+Matrix Size: 30000 	 Thread Count: 1 	 Time elapsed: 158.864481 seconds
+Matrix Size: 30000 	 Thread Count: 2 	 Time elapsed: 94.079410 seconds
+Matrix Size: 30000 	 Thread Count: 4 	 Time elapsed: 56.424629 seconds
+Matrix Size: 30000 	 Thread Count: 8 	 Time elapsed: 35.422796 seconds
+Matrix Size: 30000 	 Thread Count: 16 	 Time elapsed: 34.213802 seconds
+Matrix Size: 30000 	 Thread Count: 32 	 Time elapsed: 27.973233 seconds
+Matrix Size: 30000 	 Thread Count: 64 	 Time elapsed: 25.747923 seconds
+
+Matrix Size: 30000 	 Thread Count: 1 	 Time elapsed: 166.027619 seconds
+Matrix Size: 30000 	 Thread Count: 2 	 Time elapsed: 98.581873 seconds
+Matrix Size: 30000 	 Thread Count: 4 	 Time elapsed: 58.999720 seconds
+Matrix Size: 30000 	 Thread Count: 8 	 Time elapsed: 26.187982 seconds
+Matrix Size: 30000 	 Thread Count: 16 	 Time elapsed: 26.758184 seconds
+Matrix Size: 30000 	 Thread Count: 32 	 Time elapsed: 25.402911 seconds
+Matrix Size: 30000 	 Thread Count: 64 	 Time elapsed: 42.616441 seconds
