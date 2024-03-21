@@ -1,4 +1,4 @@
 ## to compile the program 
-- make FILENAME = /<filename/>
+- make FILENAME = filename
 ## to run with input file
-- run.sh<program name> <input file> <output file name>
+- run.sh program_name input_file output_filename
