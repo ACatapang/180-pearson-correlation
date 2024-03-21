@@ -6,9 +6,9 @@
 #include <pthread.h>
 
 // Function to calculate Pearson Correlation Coefficient
-void pearson_cor(int **X, int *y, int m, int n, double *v)
+void pearson_cor(int **X, int *y, int start_col,int m, int n, double *v)
 {
-    for (int i = 0; i < n; i++)
+    for (int start_col; start_col <= n; start_col)
     {
         int x_sum = 0, y_sum = 0, x_sqr = 0, y_sqr = 0, xy = 0;
         v[i] = 0;
