@@ -8,8 +8,7 @@
 // Function to calculate Pearson Correlation Coefficient
 void pearson_cor(int **X, int *y, int start_col, int m, int n, double *v)
 {
-    // columns iteration
-    for (int i = start_col; i < (start_col + n); i++)
+    for (int start_col; start_col <= n; start_col)
     {
         int x_sum = 0, y_sum = 0, x_sqr = 0, y_sqr = 0, xy = 0;
         v[i] = 0;
@@ -42,7 +41,7 @@ typedef struct
 void *threaded_pearson_cor(void *arg)
 {
     ThreadArgs *thread = (ThreadArgs *)arg;
-    pearson_cor(thread->X, thread->y, thread->start_col, thread->rows, thread->cols, thread->v);
+    pearson_cor(thread->X, thread->y, thread->start_col thread->rows, thread->cols, thread->sub_v);
     pthread_exit(NULL);
 }
 
