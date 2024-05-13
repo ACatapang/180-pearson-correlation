@@ -1,0 +1,32 @@
+Starting master...
+Socket created successfully
+Done with binding
+
+Listening....
+
+Acknowledgment from slave
+Acknowledgment from slave
+Acknowledgment from slave
+Acknowledgment from slave
+Acknowledgment from slave
+Acknowledgment from slave
+Acknowledgment from slave
+Acknowledgment from slave
+Time elapsed: 1.139550 seconds
+
+
+Starting master...
+Socket created successfully
+Done with binding
+
+Listening....
+
+Acknowledgment from slave
+Acknowledgment from slave
+Acknowledgment from slave
+Acknowledgment from slave
+Acknowledgment from slave
+Acknowledgment from slave
+Acknowledgment from slave
+Acknowledgment from slave
+Time elapsed: 0.991229 seconds
