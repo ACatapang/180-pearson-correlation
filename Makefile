@@ -1,12 +1,13 @@
 CC = gcc
-CFLAGS = -lm -pthread -Wall -lrt -D_GNU_SOURCE
+CFLAGS = -pthread -Wall -lrt -D_GNU_SOURCE
+LDFLAGS = -lm
 
-FILENAME := $(FILENAME)
+FILENAME ?= lab05_catapang
 
 all: $(FILENAME)
 
 $(FILENAME): $(FILENAME).c
-	$(CC) $(FILENAME).c -o $(FILENAME) $(CFLAGS)
-    
+	$(CC) $(CFLAGS) $< -o $@ $(LDFLAGS)
+
 clean:
 	rm -f $(FILENAME)

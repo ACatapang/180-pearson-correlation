@@ -1,32 +1,244 @@
+20000 2
+0.555128 
+0.599351 
+0.589452 
+
+20000 4
+0.384456 
+0.404290 
+0.448023 
+
+20000 8
+0.353601 
+0.348895 
+0.334569 
+
+20000 16
+0.352376 
+0.324709 
+0.327598 
+
+25000 2
+0.707648 
+1.092094 
+1.079911 
+
+25000 4
+0.607083
+0.597835
+0.585357
+
+25000 8
+0.559638
+0.556459
+0.582590
+
+25000 16
+0.520424
+0.504828
+0.521689
+
+30000 2
+1.804352
+1.804428
+1.592417
+
+30000 4
+1.045774
+0.997320
+1.385771
+
+30000 8
+0.890765
+1.006355
+1.085225
+
+30000 16
+0.743531
+0.818631
+0.752668
+
+CORE-AFFINE
+
+20000 2
+0.540023
+0.424790
+0.565998
+
+20000 4
+0.383938
+0.387959
+0.355470
+
+20000 8
+0.448429
+0.424253
+0.439128
+
+20000 16
+0.363700
+0.390228
+0.368747
+
+25000 2
+0.712735
+0.747568
+0.704703
+
+25000 4
+0.568550
+0.622520
+0.603270
+
+25000 8
+0.513207
+0.526405
+0.631232
+
+25000 16
+0.543555
+0.514116
+0.530085
+
+30000 2
+1.283602
+1.571705
+1.717792
+
+30000 4
+1.119654
+1.277278
+1.391787
+
+30000 8
+0.838157
+0.938144
+1.269560
+
+30000 16
+0.779023
+0.892604
+0.870514
+
 Starting master...
-Socket created successfully
+Matrix:
+83 7 54 91 68 
+63 84 46 21 82 
+3 67 9 52 18 
+16 3 16 64 44 
+89 53 15 88 76 
+4011663333Socket created successfully
+Starting master...
+Matrix:
+72 16 4 35 24 
+26 44 91 84 58 
+8 40 43 36 22 
+92 42 78 74 51 
+3 41 79 23 26 
+583229952Socket created successfully
 Done with binding
 
 Listening....
 
 Acknowledgment from slave
-Acknowledgment from slave
-Acknowledgment from slave
-Acknowledgment from slave
-Acknowledgment from slave
-Acknowledgment from slave
-Acknowledgment from slave
-Acknowledgment from slave
-Time elapsed: 1.139550 seconds
-
-
+Acknowledgment from slave583229952
+Time elapsed: 0.047216 seconds
 Starting master...
-Socket created successfully
+Matrix:
+9 26 69 88 35 
+64 57 96 72 42 
+54 4 47 63 85 
+48 22 53 82 12 
+19 10 23 88 67 
+9 15 5 63 12 Socket created successfully
+Starting master...
+Matrix:
+33 79 77 71 70 
+46 20 71 62 98 
+33 15 8 11 68 
+15 94 34 65 63 
+100 4 96 86 68 
+45 2 73 81 61 Socket created successfully
 Done with binding
 
 Listening....
 
 Acknowledgment from slave
+Acknowledgment from slave452738161
+Time elapsed: 0.222770 seconds
+Starting master...
+Matrix:
+19 56 7 67 50 
+29 15 99 67 88 
+95 95 10 43 56 
+3 63 11 47 88 
+38 5 56 70 95 
+Vector:
+32 69 3 9 65 Socket created successfully
+Done with binding
+
+Listening....
+
 Acknowledgment from slave
+Acknowledgment from slave32693965
+Time elapsed: 0.372204 seconds
+Starting master...
+Matrix:
+78 10 48 19 13 
+48 30 66 17 50 
+16 16 5 8 67 
+35 98 82 40 23 
+98 1 3 84 19 
+Vector:
+90 11 15 100 76 Socket created successfully
+Done with binding
+
+Listening....
+
 Acknowledgment from slave
+Acknowledgment from slaveSubvector:
+0.000000 0.000000 0.000000 0.000000 0.000000 
+Time elapsed: 0.329992 seconds
+Starting master...
+Matrix:
+38 91 13 81 35 
+55 92 7 61 22 
+29 43 55 41 81 
+20 65 31 62 70 
+12 34 48 55 44 
+Vector:
+84 95 98 31 34 Socket created successfully
+Done with binding
+
+Listening....
+
 Acknowledgment from slave
+Acknowledgment from slaveSubvector:
+0.000000 0.000000 0.000000 0.000000 0.000000 
+Time elapsed: 0.071258 seconds
+Starting master...
+Matrix:
+57 4 70 100 94 
+72 100 85 50 87 
+49 75 32 9 14 
+48 72 85 92 77 
+40 35 29 91 63 
+Vector:
+72 31 94 23 43 Socket created successfully
+Done with binding
+
+Listening....
+
 Acknowledgment from slave
-Acknowledgment from slave
-Acknowledgment from slave
-Acknowledgment from slave
-Time elapsed: 0.991229 seconds
+Acknowledgment from slaveSubvector:
+0.000000 0.000000 0.000000 0.000000 0.000000 
+Time elapsed: 0.060387 seconds
+Starting master...
+Matrix:
+44.000000 47.000000 78.000000 62.000000 98.000000 
+99.000000 47.000000 45.000000 92.000000 74.000000 
+67.000000 76.000000 92.000000 91.000000 31.000000 
+29.000000 65.000000 48.000000 24.000000 57.000000 
+14.000000 40.000000 17.000000 13.000000 98.000000 
+Vector:
+88.000000 70.000000 81.000000 72.000000 57.000000 Socket created successfully

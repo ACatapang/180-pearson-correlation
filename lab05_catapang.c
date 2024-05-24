@@ -1,23 +1,71 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
+#include <math.h>
+#include <string.h>
 #include <pthread.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include <stdbool.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+
+#define INET_AD inet_addr("127.0.0.1")
+
+// Function to calculate Pearson Correlation Coefficient
+void pearson_cor(int **X, int *y, int m, int n, double *v)
+{
+    for (int i = 0; i < n; i++)
+    {
+        double x_sum = 0, y_sum = 0, x_sqr = 0, y_sqr = 0, xy = 0;
+        // v[i] = 0;
+
+        for (int j = 0; j < m; j++)
+        {
+            // get summations
+            x_sum += X[j][i];
+            y_sum += y[j];
+            x_sqr += pow(X[j][i], 2);
+            y_sqr += pow(y[j], 2);
+            xy += X[j][i] * y[j];
+        }
+        double numerator = m * xy - x_sum * y_sum;
+        double denominator = sqrt((m * x_sqr - x_sum * x_sum) * (m * y_sqr - y_sum * y_sum));
+        if (denominator != 0)
+        {
+            v[i] = numerator / denominator;
+        }
+        else
+        {
+            v[i] = 0.0; // Avoid division by zero
+        }
+
+        // printf("\nR[%d]: %f\n\tx = %f\n\ty = %f\n\tx2 = %f\n\ty2 = %f\n\txy = %f\n", i, v[i], x_sum, y_sum, x_sqr, y_sqr, xy);
+    }
+}
+
+// Function to generate vector y
+int *generate_vector(int n)
+{
+    int *vector = malloc(n * sizeof(int));
+    for (int i = 0; i < n; i++)
+    {
+        vector[i] = rand() % 100 + 1;
+    }
+    return vector;
+}
 
 typedef struct
 {
     int **matrix;
+    int *y_vector;
+    double *v;
     int start_col;
     int cols;
     int rows;
     int slave_sock;
     int cpu_core;
 } ThreadArgs;
-
-#define INET_AD inet_addr("127.0.0.1")
 
 // Function to generate a matrix
 int **generate_matrix(int n)
@@ -54,6 +102,8 @@ void *distribute_matrix(void *arg)
     ThreadArgs *thread = (ThreadArgs *)arg;
 
     int **matrix = thread->matrix;
+    int *y_vector = thread->y_vector;
+    double *v = thread->v;
     int start_col = thread->start_col;
     int cols = thread->cols;
     int rows = thread->rows;
@@ -71,6 +121,13 @@ void *distribute_matrix(void *arg)
         exit(EXIT_FAILURE);
     }
 
+    // send the y_vector values
+    if (send(slave_sock, y_vector, rows * sizeof(int), 0) == -1)
+    {
+        perror("Error sending y vector data to slave");
+        exit(EXIT_FAILURE);
+    }
+
     // Send the matrix values
     for (int i = 0; i < rows; i++)
     {
@@ -81,13 +138,37 @@ void *distribute_matrix(void *arg)
         }
     }
 
+    // receive sub v pearson from slave and copy values to master vector
+    double *subvector = malloc(cols * sizeof(double));
+    if (recv(slave_sock, subvector, cols * sizeof(double), 0) == -1)
+    {
+        perror("Error receiving sub v from slave");
+        exit(EXIT_FAILURE);
+    }
+
+    // printf("\nHERE!\n");
+    // for (size_t i = 0; i < cols; i++)
+    // {
+    //     printf("%f ", subvector[i]);
+    // }
+
+    // Assign the received subvector to the appropriate positions in v
+    for (size_t i = 0; i < cols; i++)
+    {
+        v[start_col + i] = subvector[i];
+    }
+
+    // receive acknoeldgement message from slave
     char ack;
     if (recv(slave_sock, &ack, sizeof(char), 0) == -1)
     {
         perror("Error receiving acknowledgment from slave");
         exit(EXIT_FAILURE);
     }
-    printf("\nAcknowledgment from slave");
+    else
+    {
+        printf("\nAcknowledgement from slave");
+    }
 
     close(slave_sock);
     pthread_exit(NULL);
@@ -100,11 +181,10 @@ void master(int n, int p, int t)
 
     // Create matrix
     int **matrix = generate_matrix(n);
-    // print_matrix(matrix, n, n);
+    int *y_vector = generate_vector(n);
 
     // Socket creation and binding
-    int master_sock,
-        slave_sock;
+    int master_sock, slave_sock;
     struct sockaddr_in master_addr, slave_addr;
     socklen_t slave_size;
     master_sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -114,6 +194,14 @@ void master(int n, int p, int t)
         exit(EXIT_FAILURE);
     }
     printf("Socket created successfully\n");
+
+    // Set the socket option to reuse the address
+    int opt = 1;
+    if (setsockopt(master_sock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
+    {
+        perror("setsockopt");
+        exit(EXIT_FAILURE);
+    }
 
     master_addr.sin_family = AF_INET;
     master_addr.sin_port = htons(p);
@@ -146,6 +234,7 @@ void master(int n, int p, int t)
     int extra_cols = n % t;
     int start_col = 0;
     int num_processors = sysconf(_SC_NPROCESSORS_ONLN);
+    double *v = malloc(n * sizeof(double));
     cpu_set_t cpuset;
 
     gettimeofday(&time_before, NULL);
@@ -160,6 +249,8 @@ void master(int n, int p, int t)
         }
 
         args[i].matrix = matrix;
+        args[i].y_vector = y_vector;
+        args[i].v = v;
         args[i].start_col = start_col;
         args[i].cols = cols_per_thread + ((i == t - 1) ? extra_cols : 0);
         args[i].rows = n;
@@ -179,9 +270,28 @@ void master(int n, int p, int t)
         pthread_join(tid[i], NULL);
     }
     gettimeofday(&time_after, NULL);
+
     double elapsed_time = (time_after.tv_sec - time_before.tv_sec) + (time_after.tv_usec - time_before.tv_usec) / 1e6;
 
-    printf("\nTime elapsed: %.6f seconds\n", elapsed_time);
+    // printf("\nTime elapsed: %.6f seconds\n", elapsed_time);
+
+    printf("\n%.6f\n", elapsed_time);
+
+    // print_matrix(matrix, n, n);
+
+    // printf("Y Vector:\n");
+    // for (size_t i = 0; i < n; i++)
+    // {
+    //     printf("%d ", y_vector[i]);
+    // }
+    // printf("\n");
+
+    // printf("Pearson Vector:\n");
+    // for (size_t i = 0; i < n; i++)
+    // {
+    //     printf("%f ", v[i]);
+    // }
+    // printf("\n");
 
     // Clean up matrix
     for (int i = 0; i < n; i++)
@@ -189,6 +299,8 @@ void master(int n, int p, int t)
         free(matrix[i]);
     }
     free(matrix);
+    free(y_vector);
+    free(v);
 }
 
 // Slave function
@@ -208,14 +320,19 @@ void slave(int n, int p, int t)
     master_addr.sin_port = htons(p);
     master_addr.sin_addr.s_addr = INET_AD;
 
-// keep trying to connect slave to master
-connect:
-    if (connect(slave_sock, (struct sockaddr *)&master_addr, sizeof(master_addr)) < 0)
+    // keep trying to connect slave to master
+    while (1)
     {
-        perror("\nUnable to connect. Retrying to connect...");
-        goto connect;
+        if (connect(slave_sock, (struct sockaddr *)&master_addr, sizeof(master_addr)) < 0)
+        {
+            perror("\nUnable to connect. Retrying to connect...");
+        }
+        else
+        {
+            printf("\nConnected with master successfully!\n");
+            break;
+        }
     }
-    printf("\nConnected with master successfully!\n");
 
     struct timeval time_before, time_after;
     gettimeofday(&time_before, NULL);
@@ -233,6 +350,15 @@ connect:
         exit(EXIT_FAILURE);
     }
 
+    // receive y vector
+    int *sub_yvector = malloc(n * sizeof(int));
+    if (recv(slave_sock, sub_yvector, n * sizeof(int), 0) == -1)
+    {
+        perror("Error receiving y vector data from master");
+        exit(EXIT_FAILURE);
+    }
+
+    // receive submatrix
     int **submatrix = malloc(rows * sizeof(int *));
     for (int i = 0; i < rows; i++)
     {
@@ -242,6 +368,15 @@ connect:
             perror("Error receiving matrix data from master");
             exit(EXIT_FAILURE);
         }
+    }
+
+    double *subv = malloc(cols * sizeof(double));
+    pearson_cor(submatrix, sub_yvector, rows, cols, subv);
+
+    if (send(slave_sock, subv, cols * sizeof(double), 0) == -1)
+    {
+        perror("Error sending sub v to master");
+        exit(EXIT_FAILURE);
     }
 
     // Send acknowledgment to master
@@ -255,11 +390,24 @@ connect:
 
     double elapsed_time = (time_after.tv_sec - time_before.tv_sec) + (time_after.tv_usec - time_before.tv_usec) / 1e6;
 
-    printf("\nTime elapsed: %.6f seconds\n", elapsed_time);
+    // printf("\nTime elapsed: %.6f seconds\n", elapsed_time);
+
+    printf("\n%.6f\n", elapsed_time);
 
     // Print received submatrix
-    printf("Received Submatrix:\n");
+    // printf("Received Submatrix:\n");
     // print_matrix(submatrix, rows, cols);
+    // printf("\nY vector in slave:\n");
+    // for (size_t i = 0; i < rows; i++)
+    // {
+    //     printf("%d ", sub_yvector[i]);
+    // }
+
+    // printf("\nSub pearson vector:\n");
+    // for (size_t i = 0; i < cols; i++)
+    // {
+    //     printf("%f ", subv[i]);
+    // }
 
     // Clean up submatrix
     for (int i = 0; i < rows; i++)
@@ -267,6 +415,8 @@ connect:
         free(submatrix[i]);
     }
     free(submatrix);
+    free(sub_yvector);
+    free(subv);
 
     // Close socket
     close(slave_sock);
@@ -274,7 +424,7 @@ connect:
 
 int main(int argc, char *argv[])
 {
-    int n = 20000, p = 9000, s, t = 2;
+    int n = 10, p = 8500, s, t = 2;
 
     // printf("Enter values for matrix size, port, master=0/slave=1, and number of slaves (separated by spaces): ");
     // scanf("%d %d %d %d", &n, &p, &s, &t);
