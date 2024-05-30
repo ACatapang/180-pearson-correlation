@@ -1,1 +1,36 @@
-0.470177 0.470177 0.470177 0.470177 0.470177 0.470177 0.470177 0.470177 0.470177 0.470177 
+20000 2
+Time elapsed: 31.635243 seconds
+Time elapsed: 34.869870 seconds
+Time elapsed: 32.436622 seconds
+Time elapsed: 33.402815 seconds
+Time elapsed: 32.004728 seconds
+
+20000 4
+Time elapsed: 22.203007 seconds
+Time elapsed: 21.309719 seconds
+Time elapsed: 20.090480 seconds
+Time elapsed: 19.700671 seconds
+Time elapsed: 21.382238 seconds
+Time elapsed: 20.944231 seconds
+Time elapsed: 21.382749 seconds
+Time elapsed: 39.228723 seconds
+Time elapsed: 26.188715 seconds
+Time elapsed: 28.319867 seconds
+
+20000 8
+Time elapsed: 11.103148 seconds
+Time elapsed: 20.233176 seconds
+Time elapsed: 19.431896 seconds
+Time elapsed: 14.055079 seconds
+Time elapsed: 15.408439 seconds
+
+20000 16
+Time elapsed: 12.160038 seconds
+Time elapsed: 19.692157 seconds
+Time elapsed: 15.636625 seconds
+Time elapsed: 13.237133 seconds
+Time elapsed: 12.792138 seconds
+Time elapsed: 13.462452 seconds
+Time elapsed: 9.429512 seconds
+
+250000 2

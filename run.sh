@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the executable name and configuration file
-exename="lab05_catapang"
+exename="lab04_catapang"
 config="config.txt"
 slaves=2
 

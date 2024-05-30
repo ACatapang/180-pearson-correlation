@@ -1,0 +1,37 @@
+20000 2
+31.595564 seconds	31.632577 seconds	
+34.359268 seconds	34.862042 seconds	
+32.102706 seconds	32.435525 seconds	
+33.015548 seconds	33.398285 seconds	
+31.870044 seconds	32.004079 seconds	
+
+20000 4
+22.090144 seconds	22.111826 seconds	22.192816 seconds	
+20.994953 seconds	21.131121 seconds	21.224055 seconds	21.309288 seconds	
+19.783228 seconds	19.970468 seconds	20.053638 seconds	20.078464 seconds	
+19.533470 seconds	19.691423 seconds	19.699763 seconds	
+21.145869 seconds	21.292746 seconds	
+20.632804 seconds	20.670011 seconds	20.803108 seconds	20.943945 seconds	
+21.308429 seconds	21.336238 seconds	21.382348 seconds	
+38.756863 seconds	38.926582 seconds	39.147864 seconds	39.228454 seconds	
+25.874849 seconds	26.133013 seconds	
+28.150545 seconds	28.162579 seconds	28.201723 seconds	28.314147 seconds	
+
+20000 8
+10.825484 seconds	10.913927 seconds	10.937177 seconds	10.947927 seconds	10.983043 seconds	11.033809 seconds	11.102660 seconds	
+19.572303 seconds	19.698739 seconds	19.929960 seconds	19.933768 seconds	20.012235 seconds	20.131762 seconds	
+18.965299 seconds	19.066580 seconds	19.164948 seconds	19.233573 seconds	19.372741 seconds	19.388343 seconds	19.401088 seconds	
+13.778598 seconds	13.879261 seconds	14.006998 seconds	14.034504 seconds	14.048194 seconds	14.034346 seconds	
+14.421271 seconds	14.504219 seconds	14.564606 seconds	14.578251 seconds	15.248014 seconds	15.254371 seconds	15.324565 seconds	
+
+20000 16
+11.044450 seconds	11.014863 seconds	11.114724 seconds	11.095424 seconds	11.288412 seconds	11.295889 seconds	11.128195 seconds	11.337981 seconds	11.871261 seconds	11.955317 seconds	11.792457 seconds	11.962970 seconds	11.688492 seconds	11.846980 seconds	12.129350 seconds	
+19.004164 seconds	19.273613 seconds	19.249662 seconds	19.162075 seconds	19.322709 seconds	19.298101 seconds	19.076134 seconds	19.432840 seconds	19.413555 seconds	19.594956 seconds	19.548957 seconds	19.582433 seconds	19.522042 seconds	19.668138 seconds	19.517558 seconds	
+14.850135 seconds	14.918234 seconds	15.028452 seconds	14.777652 seconds	15.110622 seconds	15.101511 seconds	15.217827 seconds	15.396388 seconds	15.489608 seconds	15.531036 seconds	15.499906 seconds	15.584110 seconds	15.362463 seconds	
+12.164926 seconds	12.393235 seconds	12.459390 seconds	12.749194 seconds	12.699714 seconds	12.828839 seconds	12.893039 seconds	12.941599 seconds	12.980359 seconds	12.964611 seconds	13.038353 seconds	13.081434 seconds	13.100313 seconds	13.093772 seconds	13.172694 seconds	13.234689 seconds	
+12.544823 seconds	12.590883 seconds	12.609578 seconds	12.609211 seconds	12.645754 seconds	12.661920 seconds	12.688182 seconds	12.683768 seconds	12.687881 seconds	12.706062 seconds	12.717365 seconds	12.737445 seconds	12.745192 seconds	12.746495 seconds	12.785483 seconds	12.789614 seconds	
+13.025332 seconds	13.047927 seconds	13.073447 seconds	13.197810 seconds	13.207256 seconds	13.190995 seconds	13.239487 seconds	13.258250 seconds	13.347929 seconds	13.356284 seconds	13.404590 seconds	13.412423 seconds	13.417007 seconds	13.432162 seconds	13.454876 seconds	13.461499 seconds	7.144819 seconds	7.163232 seconds	7.183150 seconds	7.203213 seconds	7.219540 seconds	7.237908 seconds	7.272056 seconds	7.394353 seconds	7.787624 seconds	7.920369 seconds	7.922982 seconds	7.926829 seconds	7.923856 seconds	7.955532 seconds	8.000996 seconds	8.000757 seconds	
+9.045997 seconds	9.190063 seconds	9.189140 seconds	9.186563 seconds	9.205624 seconds	9.256048 seconds	9.269924 seconds	9.262838 seconds	9.297791 seconds	9.324008 seconds	9.332389 seconds	9.354363 seconds	9.376986 seconds	9.378212 seconds	9.410510 seconds	9.428319 seconds	
+
+250000 2
+

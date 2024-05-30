@@ -1,29 +1,35 @@
 #!/bin/bash
 
-# Define the executable name and configuration file
 exename="lab05_catapang"
 config="config.txt"
+slaves=2
 
 # Compile the program
-make $exename
+make "$exename"
 
-# Loop through terminals
-for i in {1..2}; do
-  # Open a new terminal, run your program, redirect the last line of output to a temporary file, and keep the terminal open
-  xterm -fn fixed -e "bash -c './$exename 1 $config | tee >(tail -n 1 >> slave_tmp.txt); exec bash'" &
+xterm_master() {
+  echo "running master"
+  xterm -sb -fn fixed -e "bash -c 'stdbuf -oL ./$exename 0 $config | tee master.tmp'; tail -n 1 master.tmp >> master.txt; rm master.tmp;" &
+  # ./$exename 0 $config | tail -n 1 >> master.txt &
+} 
+
+for ((i = 0; i < slaves; i++)); do
+  echo "running slave $i"
+  xterm -sb -fn fixed -e "bash -c './$exename 1 $config | tee >(tail -n 1 >> slave_tmp.txt)'" &
+  # ./$exename 1 $config | tail -n 1 >> slave_tmp.txt &
 done
 
-# Wait for all background processes to finish
+xterm_master
+
+echo "waiting to finish all instances"
+
 wait
 
-# Run the executable with argument 0 and redirect the last line of output to master.txt
-./$exename 0 $config | tail -n 1 >> master.txt
-
-# Concatenate the outputs into a single line using tabs
-tr '\n' '\t' < slave_tmp.txt >> slave.txt
-
-# Clean up the temporary file
-rm slave_tmp.txt
-
-# Add a newline character at the end of slave.txt for formatting
-echo >> slave.txt
+echo "copying time elapsed to txt file"
+if [ -f slave_tmp.txt ]; then
+  tr '\n' '\t' < slave_tmp.txt >> slave.txt
+  echo >> slave.txt
+  rm slave_tmp.txt
+else
+  echo "No output from slaves. Check for errors."
+fi
