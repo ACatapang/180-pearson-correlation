@@ -1,6 +1,6 @@
 #!/bin/bash
 
-exename="lab05_catapang"
+exename="lab5_int"
 config="config.txt"
 slaves=2
 
