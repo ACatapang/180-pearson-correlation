@@ -137,7 +137,7 @@ void *distribute_matrix(void *arg)
     int rows = thread->rows;
     int slave_sock = thread->slave_sock;
 
-    // Allocate a contiguous memory block for the matrix data
+    // Allocate a memory block for the matrix data
     double *data_block = malloc(rows * cols * sizeof(double));
     if (data_block == NULL)
     {
@@ -145,7 +145,7 @@ void *distribute_matrix(void *arg)
         exit(EXIT_FAILURE);
     }
 
-    // Copy matrix data into the contiguous memory block
+    // Copy matrix data into the memory block
     for (int i = 0; i < rows; i++)
     {
         for (int j = 0; j < cols; j++)
@@ -381,7 +381,7 @@ void slave(int n, int p, int t)
     struct timeval time_before, time_after;
     gettimeofday(&time_before, NULL);
 
-    // Receive matrix from master
+    // Receive matrix sizes from master
     int rows, cols;
     if (recv(slave_sock, &rows, sizeof(int), 0) == -1)
     {
