@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <unistd.h>
 
 #define INET_AD inet_addr("127.0.0.1")
 
@@ -141,11 +142,13 @@ void *distribute_matrix(void *arg)
     if (send(slave_sock, &rows, sizeof(int), 0) == -1)
     {
         perror("Error sending matrix row size to slave");
+        close(slave_sock);
         exit(EXIT_FAILURE);
     }
     if (send(slave_sock, &cols, sizeof(int), 0) == -1)
     {
         perror("Error sending matrix column size to slave");
+        close(slave_sock);
         exit(EXIT_FAILURE);
     }
 
@@ -153,6 +156,7 @@ void *distribute_matrix(void *arg)
     if (send(slave_sock, y_vector, rows * sizeof(double), 0) == -1)
     {
         perror("Error sending y vector data to slave");
+        close(slave_sock);
         exit(EXIT_FAILURE);
     }
 
@@ -162,6 +166,7 @@ void *distribute_matrix(void *arg)
         if (send(slave_sock, matrix[i], cols * sizeof(double), 0) == -1)
         {
             perror("Error sending matrix row to slave");
+            close(slave_sock);
             exit(EXIT_FAILURE);
         }
     }
@@ -171,6 +176,7 @@ void *distribute_matrix(void *arg)
     if (recv(slave_sock, subvector, cols * sizeof(double), MSG_WAITALL) == -1)
     {
         perror("Error receiving sub v from slave");
+        close(slave_sock);
         exit(EXIT_FAILURE);
     }
 
@@ -191,12 +197,11 @@ void *distribute_matrix(void *arg)
     if (recv(slave_sock, ack, sizeof(ack), MSG_WAITALL) == -1)
     {
         perror("Error receiving acknowledgment from slave");
+        close(slave_sock);
         exit(EXIT_FAILURE);
     }
-    else
-    {
-        printf(" %s\n", ack);
-    }
+
+    printf(" %s\n", ack);
 
     close(slave_sock);
     pthread_exit(NULL);
@@ -219,11 +224,14 @@ void master(int n, int p, int t)
     struct sockaddr_in master_addr, slave_addr;
     socklen_t slave_size;
     master_sock = socket(AF_INET, SOCK_STREAM, 0);
+
     if (master_sock < 0)
     {
         perror("Error while creating socket");
+        close(master_sock);
         exit(EXIT_FAILURE);
     }
+
     printf("Socket created successfully\n");
 
     master_addr.sin_family = AF_INET;
@@ -233,6 +241,7 @@ void master(int n, int p, int t)
     if (bind(master_sock, (struct sockaddr *)&master_addr, sizeof(master_addr)) < 0)
     {
         perror("Couldn't bind to the port");
+        close(master_sock);
         exit(EXIT_FAILURE);
     }
     printf("Done with binding\n");
@@ -241,6 +250,7 @@ void master(int n, int p, int t)
     if (listen(master_sock, 50) < 0)
     {
         perror("Listen failed");
+        close(master_sock);
         exit(EXIT_FAILURE);
     }
     else
@@ -268,6 +278,8 @@ void master(int n, int p, int t)
         if (slave_sock < 0)
         {
             perror("Can't accept");
+            close(master_sock);
+            close(slave_sock);
             exit(EXIT_FAILURE);
         }
 
@@ -332,6 +344,7 @@ void slave(int n, int p, int t)
     if (slave_sock < 0)
     {
         perror("Unable to create socket");
+        close(slave_sock);
         exit(EXIT_FAILURE);
     }
 
@@ -347,6 +360,7 @@ void slave(int n, int p, int t)
         if (connect(slave_sock, (struct sockaddr *)&master_addr, sizeof(master_addr)) < 0)
         {
             perror("\nUnable to connect. Retrying to connect...");
+            sleep(7);
         }
         else
         {
@@ -363,11 +377,13 @@ void slave(int n, int p, int t)
     if (recv(slave_sock, &rows, sizeof(int), MSG_WAITALL) == -1)
     {
         perror("Error receiving matrix size from master");
+        close(slave_sock);
         exit(EXIT_FAILURE);
     }
     if (recv(slave_sock, &cols, sizeof(int), MSG_WAITALL) == -1)
     {
         perror("Error receiving matrix size from master");
+        close(slave_sock);
         exit(EXIT_FAILURE);
     }
 
@@ -376,6 +392,7 @@ void slave(int n, int p, int t)
     if (recv(slave_sock, sub_yvector, n * sizeof(double), MSG_WAITALL) == -1)
     {
         perror("Error receiving y vector data from master");
+        close(slave_sock);
         exit(EXIT_FAILURE);
     }
 
@@ -387,6 +404,7 @@ void slave(int n, int p, int t)
         if (recv(slave_sock, submatrix[i], cols * sizeof(double), MSG_WAITALL) == -1)
         {
             perror("Error receiving matrix data from master");
+            close(slave_sock);
             exit(EXIT_FAILURE);
         }
     }
@@ -397,6 +415,7 @@ void slave(int n, int p, int t)
     if (send(slave_sock, subv, cols * sizeof(double), 0) == -1)
     {
         perror("Error sending sub v to master");
+        close(slave_sock);
         exit(EXIT_FAILURE);
     }
 
@@ -405,6 +424,7 @@ void slave(int n, int p, int t)
     if (send(slave_sock, ack, sizeof(ack), 0) == -1)
     {
         perror("Error sending acknowledgment to master");
+        close(slave_sock);
         exit(EXIT_FAILURE);
     }
     gettimeofday(&time_after, NULL);
@@ -437,7 +457,6 @@ void slave(int n, int p, int t)
     free(sub_yvector);
     free(subv);
 
-    // Close socket
     close(slave_sock);
 }
 
