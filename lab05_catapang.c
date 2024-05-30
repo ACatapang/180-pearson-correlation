@@ -13,7 +13,7 @@
 #define INET_AD inet_addr("127.0.0.1")
 
 // Function to calculate Pearson Correlation Coefficient
-void pearson_cor(int **X, int *y, int m, int n, double *v)
+void pearson_cor(double **X, double *y, int m, int n, double *v)
 {
     for (int i = 0; i < n; i++)
     {
@@ -44,21 +44,38 @@ void pearson_cor(int **X, int *y, int m, int n, double *v)
     }
 }
 
-// Function to generate vector y
-int *generate_vector(int n)
+double *sample_vector(int n)
 {
-    int *vector = malloc(n * sizeof(int));
+    double y_values[] = {53.1, 49.7, 48.4, 54.2, 54.9, 43.7, 47.2, 45.2, 54.4, 50.4};
+    double *vector = malloc(n * sizeof(double));
+
     for (int i = 0; i < n; i++)
     {
-        vector[i] = rand() % 100 + 1;
+        vector[i] = y_values[i];
     }
+
     return vector;
+}
+
+double **sample_matrix(int n)
+{
+    double col_val[] = {3.63, 3.02, 3.82, 3.42, 3.59, 2.87, 3.03, 3.46, 3.36, 3.3};
+    double **matrix = malloc(n * sizeof(double *));
+    for (int i = 0; i < n; i++)
+    {
+        matrix[i] = malloc(n * sizeof(double));
+        for (int j = 0; j < n; j++)
+        {
+            matrix[i][j] = col_val[i];
+        }
+    }
+    return matrix;
 }
 
 typedef struct
 {
-    int **matrix;
-    int *y_vector;
+    double **matrix;
+    double *y_vector;
     double *v;
     int start_col;
     int cols;
@@ -67,13 +84,24 @@ typedef struct
     int cpu_core;
 } ThreadArgs;
 
-// Function to generate a matrix
-int **generate_matrix(int n)
+// Function to generate vector y
+double *generate_vector(int n)
 {
-    int **matrix = malloc(n * sizeof(int *));
+    double *vector = malloc(n * sizeof(double));
     for (int i = 0; i < n; i++)
     {
-        matrix[i] = malloc(n * sizeof(int));
+        vector[i] = rand() % 100 + 1;
+    }
+    return vector;
+}
+
+// Function to generate a matrix
+double **generate_matrix(int n)
+{
+    double **matrix = malloc(n * sizeof(double *));
+    for (int i = 0; i < n; i++)
+    {
+        matrix[i] = malloc(n * sizeof(double));
         for (int j = 0; j < n; j++)
         {
             matrix[i][j] = rand() % 100 + 1;
@@ -83,14 +111,14 @@ int **generate_matrix(int n)
 }
 
 // Function to print a matrix
-void print_matrix(int **matrix, int rows, int cols)
+void print_matrix(double **matrix, int rows, int cols)
 {
     printf("Matrix:\n");
     for (int i = 0; i < rows; i++)
     {
         for (int j = 0; j < cols; j++)
         {
-            printf("%d ", matrix[i][j]);
+            printf("%f ", matrix[i][j]);
         }
         printf("\n");
     }
@@ -101,15 +129,16 @@ void *distribute_matrix(void *arg)
 {
     ThreadArgs *thread = (ThreadArgs *)arg;
 
-    int **matrix = thread->matrix;
-    int *y_vector = thread->y_vector;
+    double **matrix = thread->matrix;
+    double *y_vector = thread->y_vector;
     double *v = thread->v;
     int start_col = thread->start_col;
     int cols = thread->cols;
     int rows = thread->rows;
     int slave_sock = thread->slave_sock;
+
     // Allocate a contiguous memory block for the matrix data
-    int *data_block = malloc(rows * cols * sizeof(int));
+    double *data_block = malloc(rows * cols * sizeof(double));
     if (data_block == NULL)
     {
         perror("Error allocating memory for data block");
@@ -124,6 +153,15 @@ void *distribute_matrix(void *arg)
             data_block[i * cols + j] = matrix[i][start_col + j];
         }
     }
+
+    // for (int i = 0; i < rows; i++)
+    // {
+    //     for (int j = 0; j < cols; j++)
+    //     {
+    //         printf("%f", data_block[i * cols + j]);
+    //     }
+    // }
+
     // Send matrix sizes to slave
     if (send(slave_sock, &rows, sizeof(int), 0) == -1)
     {
@@ -137,14 +175,14 @@ void *distribute_matrix(void *arg)
     }
 
     // send the y_vector values
-    if (send(slave_sock, y_vector, rows * sizeof(int), 0) == -1)
+    if (send(slave_sock, y_vector, rows * sizeof(double), 0) == -1)
     {
         perror("Error sending y vector data to slave");
         exit(EXIT_FAILURE);
     }
 
     // Send the entire data block at once
-    if (send(slave_sock, data_block, rows * cols * sizeof(int), 0) == -1)
+    if (send(slave_sock, data_block, rows * cols * sizeof(double), 0) == -1)
     {
         perror("Error sending matrix data to slave");
         exit(EXIT_FAILURE);
@@ -193,8 +231,11 @@ void master(int n, int p, int t)
     printf("Starting master...\n");
 
     // Create matrix
-    int **matrix = generate_matrix(n);
-    int *y_vector = generate_vector(n);
+    // int **matrix = generate_matrix(n);
+    // int *y_vector = generate_vector(n);
+
+    double **matrix = sample_matrix(n);
+    double *y_vector = sample_vector(n);
 
     // Socket creation and binding
     int master_sock, slave_sock;
@@ -278,25 +319,23 @@ void master(int n, int p, int t)
 
     double elapsed_time = (time_after.tv_sec - time_before.tv_sec) + (time_after.tv_usec - time_before.tv_usec) / 1e6;
 
-    // printf("\nTime elapsed: %.6f seconds\n", elapsed_time);
+    printf("\nTime elapsed: %.6f seconds\n", elapsed_time);
 
-    printf("\n%.6f\n", elapsed_time);
+    print_matrix(matrix, n, n);
 
-    // print_matrix(matrix, n, n);
+    printf("Y Vector:\n");
+    for (size_t i = 0; i < n; i++)
+    {
+        printf("%f ", y_vector[i]);
+    }
+    printf("\n");
 
-    // printf("Y Vector:\n");
-    // for (size_t i = 0; i < n; i++)
-    // {
-    //     printf("%d ", y_vector[i]);
-    // }
-    // printf("\n");
-
-    // printf("Pearson Vector:\n");
-    // for (size_t i = 0; i < n; i++)
-    // {
-    //     printf("%f ", v[i]);
-    // }
-    // printf("\n");
+    printf("Pearson Vector:\n");
+    for (size_t i = 0; i < n; i++)
+    {
+        printf("%f ", v[i]);
+    }
+    printf("\n");
 
     // Clean up matrix
     for (int i = 0; i < n; i++)
@@ -356,19 +395,19 @@ void slave(int n, int p, int t)
     }
 
     // receive y vector
-    int *sub_yvector = malloc(n * sizeof(int));
-    if (recv(slave_sock, sub_yvector, n * sizeof(int), 0) == -1)
+    double *sub_yvector = malloc(n * sizeof(double));
+    if (recv(slave_sock, sub_yvector, n * sizeof(double), 0) == -1)
     {
         perror("Error receiving y vector data from master");
         exit(EXIT_FAILURE);
     }
 
     // receive submatrix
-    int **submatrix = malloc(rows * sizeof(int *));
+    double **submatrix = malloc(rows * sizeof(double *));
     for (int i = 0; i < rows; i++)
     {
-        submatrix[i] = malloc(cols * sizeof(int));
-        if (recv(slave_sock, submatrix[i], cols * sizeof(int), 0) == -1)
+        submatrix[i] = malloc(cols * sizeof(double));
+        if (recv(slave_sock, submatrix[i], cols * sizeof(double), 0) == -1)
         {
             perror("Error receiving matrix data from master");
             exit(EXIT_FAILURE);
@@ -397,22 +436,20 @@ void slave(int n, int p, int t)
 
     printf("\nTime elapsed: %.6f seconds\n", elapsed_time);
 
-    // printf("\n%.6f\n", elapsed_time);
-
     // Print received submatrix
-    // printf("Received Submatrix:\n");
-    // print_matrix(submatrix, rows, cols);
-    // printf("\nY vector in slave:\n");
-    // for (size_t i = 0; i < rows; i++)
-    // {
-    //     printf("%d ", sub_yvector[i]);
-    // }
+    printf("Received Submatrix:\n");
+    print_matrix(submatrix, rows, cols);
+    printf("\nY vector in slave:\n");
+    for (size_t i = 0; i < rows; i++)
+    {
+        printf("%f ", sub_yvector[i]);
+    }
 
-    // printf("\nSub pearson vector:\n");
-    // for (size_t i = 0; i < cols; i++)
-    // {
-    //     printf("%f ", subv[i]);
-    // }
+    printf("\nSub pearson vector:\n");
+    for (size_t i = 0; i < cols; i++)
+    {
+        printf("%f ", subv[i]);
+    }
 
     // Clean up submatrix
     for (int i = 0; i < rows; i++)
