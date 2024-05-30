@@ -108,7 +108,22 @@ void *distribute_matrix(void *arg)
     int cols = thread->cols;
     int rows = thread->rows;
     int slave_sock = thread->slave_sock;
+    // Allocate a contiguous memory block for the matrix data
+    int *data_block = malloc(rows * cols * sizeof(int));
+    if (data_block == NULL)
+    {
+        perror("Error allocating memory for data block");
+        exit(EXIT_FAILURE);
+    }
 
+    // Copy matrix data into the contiguous memory block
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            data_block[i * cols + j] = matrix[i][start_col + j];
+        }
+    }
     // Send matrix sizes to slave
     if (send(slave_sock, &rows, sizeof(int), 0) == -1)
     {
@@ -128,14 +143,11 @@ void *distribute_matrix(void *arg)
         exit(EXIT_FAILURE);
     }
 
-    // Send the matrix values
-    for (int i = 0; i < rows; i++)
+    // Send the entire data block at once
+    if (send(slave_sock, data_block, rows * cols * sizeof(int), 0) == -1)
     {
-        if (send(slave_sock, matrix[i] + start_col, cols * sizeof(int), 0) == -1)
-        {
-            perror("Error sending matrix data to slave");
-            exit(EXIT_FAILURE);
-        }
+        perror("Error sending matrix data to slave");
+        exit(EXIT_FAILURE);
     }
 
     // receive sub v pearson from slave and copy values to master vector
@@ -159,17 +171,18 @@ void *distribute_matrix(void *arg)
     }
 
     // receive acknoeldgement message from slave
-    char ack;
-    if (recv(slave_sock, &ack, sizeof(char), 0) == -1)
+    char ack[16];
+    if (recv(slave_sock, ack, sizeof(ack), 0) == -1)
     {
         perror("Error receiving acknowledgment from slave");
         exit(EXIT_FAILURE);
     }
     else
     {
-        printf("\nAcknowledgement from slave");
+        printf(" %s\n", ack);
     }
 
+    free(data_block);
     close(slave_sock);
     pthread_exit(NULL);
 }
@@ -194,14 +207,6 @@ void master(int n, int p, int t)
         exit(EXIT_FAILURE);
     }
     printf("Socket created successfully\n");
-
-    // Set the socket option to reuse the address
-    int opt = 1;
-    if (setsockopt(master_sock, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
-    {
-        perror("setsockopt");
-        exit(EXIT_FAILURE);
-    }
 
     master_addr.sin_family = AF_INET;
     master_addr.sin_port = htons(p);
@@ -380,8 +385,8 @@ void slave(int n, int p, int t)
     }
 
     // Send acknowledgment to master
-    char ack = 'A'; // Dummy acknowledgment
-    if (send(slave_sock, &ack, sizeof(char), 0) == -1)
+    char ack[] = "ACK from slave";
+    if (send(slave_sock, ack, sizeof(ack), 0) == -1)
     {
         perror("Error sending acknowledgment to master");
         exit(EXIT_FAILURE);
@@ -390,9 +395,9 @@ void slave(int n, int p, int t)
 
     double elapsed_time = (time_after.tv_sec - time_before.tv_sec) + (time_after.tv_usec - time_before.tv_usec) / 1e6;
 
-    // printf("\nTime elapsed: %.6f seconds\n", elapsed_time);
+    printf("\nTime elapsed: %.6f seconds\n", elapsed_time);
 
-    printf("\n%.6f\n", elapsed_time);
+    // printf("\n%.6f\n", elapsed_time);
 
     // Print received submatrix
     // printf("Received Submatrix:\n");
@@ -422,22 +427,42 @@ void slave(int n, int p, int t)
     close(slave_sock);
 }
 
+// Function to read configuration from a file
+void read_config(const char *filename, int *n, int *p, int *t)
+{
+    FILE *file = fopen(filename, "r");
+    if (file == NULL)
+    {
+        perror("Error opening file");
+        exit(EXIT_FAILURE);
+    }
+
+    if (fscanf(file, "%d %d %d", n, p, t) != 3)
+    {
+        perror("Error reading configuration");
+        fclose(file);
+        exit(EXIT_FAILURE);
+    }
+
+    fclose(file);
+}
+
 int main(int argc, char *argv[])
 {
-    int n = 10, p = 8500, s, t = 2;
-
-    // printf("Enter values for matrix size, port, master=0/slave=1, and number of slaves (separated by spaces): ");
-    // scanf("%d %d %d %d", &n, &p, &s, &t);
+    int n, p, s, t;
 
     // Check if the correct number of arguments is provided
-    if (argc != 2)
+    if (argc != 3)
     {
-        printf("Usage: %s [0 for master, 1 for slave]\n", argv[0]);
+        printf("Usage: %s [0 for master, 1 for slave] [config file]\n", argv[0]);
         return 1;
     }
 
-    // Convert the argument to an integer
+    // Convert the first argument to an integer
     s = atoi(argv[1]);
+
+    // Read the configuration from the file
+    read_config(argv[2], &n, &p, &t);
 
     srand(time(NULL)); // Initialize random seed
 

@@ -95,14 +95,17 @@ void *distribute_matrix(void *arg)
         exit(EXIT_FAILURE);
     }
 
-    // Receive acknowledgment from slave
+    // receive acknoeldgement message from slave
     char ack[16];
     if (recv(slave_sock, ack, sizeof(ack), 0) == -1)
     {
         perror("Error receiving acknowledgment from slave");
         exit(EXIT_FAILURE);
     }
-    printf("Acknowledgment from slave: %s\n", ack);
+    else
+    {
+        printf(" %s\n", ack);
+    }
 
     free(data_block);
     close(slave_sock);
@@ -119,8 +122,7 @@ void master(int n, int p, int t)
     // print_matrix(matrix, n, n);
 
     // Socket creation and binding
-    int master_sock,
-        slave_sock;
+    int master_sock, slave_sock;
     struct sockaddr_in master_addr, slave_addr;
     socklen_t slave_size;
     master_sock = socket(AF_INET, SOCK_STREAM, 0);
@@ -224,15 +226,19 @@ void slave(int n, int p, int t)
     master_addr.sin_port = htons(p);
     master_addr.sin_addr.s_addr = INET_AD;
 
-// keep trying to connect slave to master
-connect:
-    if (connect(slave_sock, (struct sockaddr *)&master_addr, sizeof(master_addr)) < 0)
+    // keep trying to connect slave to master
+    while (1)
     {
-        perror("\nUnable to connect. Retrying to connect...");
-        goto connect;
+        if (connect(slave_sock, (struct sockaddr *)&master_addr, sizeof(master_addr)) < 0)
+        {
+            perror("\nUnable to connect. Retrying to connect...");
+        }
+        else
+        {
+            printf("\nConnected with master successfully!\n");
+            break;
+        }
     }
-    printf("\nConnected with master successfully!\n");
-
     struct timeval time_before, time_after;
     gettimeofday(&time_before, NULL);
 
@@ -274,7 +280,7 @@ connect:
     printf("\nTime elapsed: %.6f seconds\n", elapsed_time);
 
     // Print received submatrix
-    printf("Received Submatrix:\n");
+    // printf("Received Submatrix:\n");
     // print_matrix(submatrix, rows, cols);
 
     // Clean up submatrix
