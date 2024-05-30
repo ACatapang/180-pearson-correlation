@@ -319,8 +319,6 @@ void master(int n, int p, int t)
 
     double elapsed_time = (time_after.tv_sec - time_before.tv_sec) + (time_after.tv_usec - time_before.tv_usec) / 1e6;
 
-    printf("\nTime elapsed: %.6f seconds\n", elapsed_time);
-
     print_matrix(matrix, n, n);
 
     printf("Y Vector:\n");
@@ -336,6 +334,8 @@ void master(int n, int p, int t)
         printf("%f ", v[i]);
     }
     printf("\n");
+
+    printf("\nTime elapsed: %.6f seconds\n", elapsed_time);
 
     // Clean up matrix
     for (int i = 0; i < n; i++)
@@ -434,8 +434,6 @@ void slave(int n, int p, int t)
 
     double elapsed_time = (time_after.tv_sec - time_before.tv_sec) + (time_after.tv_usec - time_before.tv_usec) / 1e6;
 
-    printf("\nTime elapsed: %.6f seconds\n", elapsed_time);
-
     // Print received submatrix
     printf("Received Submatrix:\n");
     print_matrix(submatrix, rows, cols);
@@ -450,6 +448,8 @@ void slave(int n, int p, int t)
     {
         printf("%f ", subv[i]);
     }
+
+    printf("\nTime elapsed: %.6f seconds\n", elapsed_time);
 
     // Clean up submatrix
     for (int i = 0; i < rows; i++)
