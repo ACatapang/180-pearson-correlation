@@ -87,7 +87,7 @@ void *distribute_matrix(void *arg)
         perror("Error receiving acknowledgment from slave");
         exit(EXIT_FAILURE);
     }
-    printf("\nAcknowledgment from slave");
+    printf("\nAcknowledgement from slave");
 
     close(slave_sock);
     pthread_exit(NULL);
@@ -274,7 +274,7 @@ connect:
 
 int main(int argc, char *argv[])
 {
-    int n = 20000, p = 9000, s, t = 2;
+    int n, p, s, t;
 
     // printf("Enter values for matrix size, port, master=0/slave=1, and number of slaves (separated by spaces): ");
     // scanf("%d %d %d %d", &n, &p, &s, &t);
