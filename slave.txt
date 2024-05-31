@@ -34,6 +34,53 @@
 9.045997 seconds	9.190063 seconds	9.189140 seconds	9.186563 seconds	9.205624 seconds	9.256048 seconds	9.269924 seconds	9.262838 seconds	9.297791 seconds	9.324008 seconds	9.332389 seconds	9.354363 seconds	9.376986 seconds	9.378212 seconds	9.410510 seconds	9.428319 seconds	
 
 250000 2
+51.398267 seconds	
+52.467474 seconds	
+51.272381 seconds	51.434095 seconds	
 
+25000 4
+23.126324 seconds	23.379733 seconds	
+19.605781 seconds	19.700159 seconds	19.733313 seconds	19.877372 seconds	
+22.720037 seconds	22.945931 seconds	
 
+25000 8
+12.914204 seconds	13.031078 seconds	13.580061 seconds	14.001287 seconds	
+13.247909 seconds	13.250563 seconds	13.296127 seconds	13.269624 seconds	
+13.173301 seconds	13.310232 seconds	13.482287 seconds	13.484219 seconds	13.610340 seconds	
+12.797386 seconds	12.831183 seconds	12.909206 seconds	12.930971 seconds	
+12.806277 seconds	12.847598 seconds	12.848251 seconds	12.787876 seconds	12.933960 seconds	12.950539 seconds
 
+25000 16
+11.068345 seconds	11.073601 seconds	11.114655 seconds	11.147221 seconds	
+14.070971 seconds	14.141577 seconds	14.230672 seconds	14.067710 seconds	
+15.423642 seconds	15.362586 seconds	15.370520 seconds	
+11.858223 seconds	12.065147 seconds	11.847025 seconds	11.868414 seconds	11.921802 seconds	
+12.177407 seconds	12.187189 seconds	12.980624 seconds	12.218276 seconds	12.241547 seconds	12.360016 seconds	
+
+30000 2
+83.956642 seconds	84.148213 seconds	
+90.246862 seconds	90.370959 seconds	
+70.738532 seconds	70.760360 seconds	
+70.024661 seconds	70.185324 seconds	
+69.296399 seconds	69.336557 seconds	
+
+30000 4
+
+69.841939 seconds	69.940493 seconds	
+85.927363 seconds	86.311066 seconds	
+81.049591 seconds	81.397682 seconds	
+76.025470 seconds	76.056972 seconds	
+74.715410 seconds	
+
+30000 8
+18.851976 seconds	18.923312 seconds	18.896639 seconds	18.988282 seconds	18.974916 seconds	
+21.814970 seconds	21.821040 seconds	22.403276 seconds	22.345219 seconds	22.541810 seconds	
+20.657800 seconds	21.042648 seconds	21.077106 seconds	21.147117 seconds	21.159968 seconds	
+20.890251 seconds	20.897408 seconds	21.191635 seconds	21.246454 seconds	21.256121 seconds	21.374159 seconds	
+20.991804 seconds	21.063878 seconds	21.080367 seconds	21.189182 seconds	
+
+30000 16
+14.868755 seconds	14.686708 seconds	14.732896 seconds	14.613130 seconds	
+17.683299 seconds	17.718609 seconds	17.736090 seconds	17.577260 seconds	
+17.970646 seconds	17.826231 seconds	17.662756 seconds	17.746189 seconds	17.756053 seconds	17.562093 seconds	
+18.482523 seconds	18.655941 seconds	18.677536 seconds	18.614753 seconds	

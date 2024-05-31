@@ -1,37 +1,86 @@
 20000 2
-Time elapsed: 31.635243 seconds
-Time elapsed: 34.869870 seconds
-Time elapsed: 32.436622 seconds
-Time elapsed: 33.402815 seconds
-Time elapsed: 32.004728 seconds
+31.635243 seconds
+34.869870 seconds
+32.436622 seconds
+33.402815 seconds
+32.004728 seconds
 
 20000 4
-Time elapsed: 22.203007 seconds
-Time elapsed: 21.309719 seconds
-Time elapsed: 20.090480 seconds
-Time elapsed: 19.700671 seconds
-Time elapsed: 21.382238 seconds
-Time elapsed: 20.944231 seconds
-Time elapsed: 21.382749 seconds
-Time elapsed: 39.228723 seconds
-Time elapsed: 26.188715 seconds
-Time elapsed: 28.319867 seconds
+22.203007 seconds
+21.309719 seconds
+20.090480 seconds
+19.700671 seconds
+21.382238 seconds
+20.944231 seconds
+21.382749 seconds
+39.228723 seconds
+26.188715 seconds
+28.319867 seconds
 
 20000 8
-Time elapsed: 11.103148 seconds
-Time elapsed: 20.233176 seconds
-Time elapsed: 19.431896 seconds
-Time elapsed: 14.055079 seconds
-Time elapsed: 15.408439 seconds
+11.103148 seconds
+20.233176 seconds
+19.431896 seconds
+14.055079 seconds
+15.408439 seconds
 
 20000 16
-Time elapsed: 12.160038 seconds
-Time elapsed: 19.692157 seconds
-Time elapsed: 15.636625 seconds
-Time elapsed: 13.237133 seconds
-Time elapsed: 12.792138 seconds
-Time elapsed: 13.462452 seconds
-Time elapsed: 9.429512 seconds
+12.160038 seconds
+19.692157 seconds
+15.636625 seconds
+13.237133 seconds
+12.792138 seconds
+13.462452 seconds
+9.429512 seconds
 
 250000 2
-Listening....
+52.241277 seconds
+53.405434 seconds
+52.418150 seconds
+
+25000 4
+23.548255 seconds
+20.239035 seconds
+23.522913 seconds
+
+25000 8
+14.593544 seconds
+13.601187 seconds
+14.393194 seconds
+13.173729 seconds
+13.201937 seconds
+
+25000 16
+11.324361 seconds
+14.666210 seconds
+15.883929 seconds
+12.692280 seconds
+13.301868 seconds
+
+30000 2
+84.340660 seconds
+90.985954 seconds
+71.578970 seconds
+70.819310 seconds
+70.317672 seconds
+
+30000 4
+70.548284 seconds
+86.700194 seconds
+81.794445 seconds
+76.279786 seconds
+75.384891 seconds
+
+30000 8
+19.765475 seconds
+23.215831 seconds
+21.578639 seconds
+22.041207 seconds
+21.903056 seconds
+
+30000 16
+15.482819 seconds
+18.153233 seconds
+18.457837 seconds
+19.523859 seconds
+

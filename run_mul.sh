@@ -2,7 +2,7 @@
 
 exename="lab5_int"
 config="config.txt"
-slaves=2
+slaves=16
 
 # Compile the program
 make "$exename"
